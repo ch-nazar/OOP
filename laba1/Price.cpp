@@ -2,23 +2,14 @@
 #include "Price.h"
 #include <cstdio>
 
-void normalize(Price& p) {
-    if (p.kopecks >= 100) {
-        p.hryvnia += p.kopecks / 100;
-        p.kopecks %= 100;
-    }
-}
-
 void add(Price& target, const Price& other) {
     target.hryvnia += other.hryvnia;
     target.kopecks += other.kopecks;
-    normalize(target);
 }
 
 void multiply(Price& p, int quantity) {
     p.hryvnia *= quantity;
     p.kopecks *= quantity;
-    normalize(p);
 }
 
 void roundToTen(Price& p) {
@@ -29,11 +20,10 @@ void roundToTen(Price& p) {
     } else {
         p.kopecks += (10 - remainder);
     }
-    
-    normalize(p);
 }
 
 void print(const Price& p) {
+
     printf("%d грн %02d коп", p.hryvnia, p.kopecks);
 }
 
@@ -44,26 +34,42 @@ void processCheque(const char* filename) {
         return;
     }
 
-    Price total = {0, 0}, cur;
+    Price total = {0, 0};
+    Price cur;
     int qty;
 
+    printf("--- ВАШ ЧЕК ---\n");
     
-    while (fscanf(f, "%d %hi %d", &cur.hryvnia, &cur.kopecks, &qty) == 3) {
+
+    while (!feof(f)) {
+
+        int parsed = fscanf(f, "%d %hi %d", &cur.hryvnia, &cur.kopecks, &qty);
         
-        if (cur.hryvnia < 0 || cur.kopecks < 0 || qty <= 0) {
-            
-            continue; 
+        if (parsed == 3) {
+
+            if (cur.hryvnia >= 0 && cur.kopecks >= 0 && qty > 0) {
+                multiply(cur, qty); 
+                add(total, cur);    
+            }
+        } else if (parsed != EOF) {
+            fscanf(f, "%*s");
+        } else {
+            break;
         }
-        
-        multiply(cur, qty);
-        add(total, cur);
     }
     fclose(f);
 
-    Price toPay = total;
-    roundToTen(toPay);
+    total.hryvnia += total.kopecks / 100;
+    total.kopecks %= 100;
 
-    printf("Сума: ");      print(total);
-    printf("\nДо оплати: "); print(toPay);
+    printf("----------------\n");
+    printf("Сума: "); print(total);
+    
+    roundToTen(total);
+    
+    total.hryvnia += total.kopecks / 100;
+    total.kopecks %= 100;
+    
+    printf("\nДо оплати: "); print(total);
     printf("\n");
 }
