@@ -2,7 +2,7 @@
 #include <iostream>
 #include <limits>
 #include <string>
-#include <windows.h> // Додано для ремонту українського тексту в консолі Windows
+#include <windows.h>
 
 using namespace std;
 
@@ -50,7 +50,6 @@ void processPoints(const Triangle& t) {
 }
 
 int main() {
-    // Вмикаємо UTF-8 для терміналу Windows, щоб текст був читабельним
     SetConsoleOutputCP(65001);
     SetConsoleCP(65001);
 

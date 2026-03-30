@@ -33,4 +33,4 @@ public:
     int checkPoint(Point p) const; 
 };
 
-#endif // GEOMETRY_H
+#endif

@@ -12,7 +12,7 @@ int Triangle::checkPoint(Point p) const {
     bool hasNeg = (cp1 < -1e-9) || (cp2 < -1e-9) || (cp3 < -1e-9);
     bool hasZero = abs(cp1) <= 1e-9 || abs(cp2) <= 1e-9 || abs(cp3) <= 1e-9;
 
-    if (hasPos && hasNeg) return -1; // Зовні
-    if (hasZero) return 0;           // На межі
-    return 1;                        // Всередині
+    if (hasPos && hasNeg) return -1; 
+    if (hasZero) return 0;           
+    return 1;                        
 }
