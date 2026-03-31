@@ -43,7 +43,8 @@ void processPoints(const Triangle& t) {
         int res = t.checkPoint(p);
         
         cout << "  Результат: ";
-        if (res == 1) cout << "ВСЕРЕДИНІ трикутника\n";
+        if (res == 2) cout << "НА ВЕРШИНІ трикутника\n";
+        else if (res == 1) cout << "ВСЕРЕДИНІ трикутника\n";
         else if (res == 0) cout << "НА МЕЖІ трикутника\n";
         else cout << "ЗОВНІ трикутника\n";
     }
@@ -62,12 +63,9 @@ int main() {
     Triangle t(a, b, c);
     
     if (t.isDegenerate()) {
-        cerr << "\n[!] Помилка: Трикутник вироджений (точки на одній прямій)!\n"; 
-        
-        cout << "Координати вершин виродженого трикутника:\n";
-        t.showPoints(); 
-        
-        return 1;
+        cout << "\n[!] Увага: Трикутник вироджений (всі точки на одній прямій).\n"; 
+        cout << "Координати вершин:\n";
+        t.showPoints();
     }
 
     processPoints(t);
