@@ -31,6 +31,12 @@ public:
     }
     
     int checkPoint(Point p) const; 
+
+    void showPoints() const {
+        std::cout << "  A (" << a_.x() << ", " << a_.y() << ")\n"
+                  << "  B (" << b_.x() << ", " << b_.y() << ")\n"
+                  << "  C (" << c_.x() << ", " << c_.y() << ")\n";
+    }
 };
 
 #endif
