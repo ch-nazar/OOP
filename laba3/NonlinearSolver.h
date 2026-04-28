@@ -8,7 +8,6 @@ private:
     double eps;
 
     double f(double x);
-
     double df(double x);
 
 public:
@@ -18,8 +17,8 @@ public:
     void setVolumes(double vol_a, double vol_b);
     void setTolerance(double vol_eps);
 
-    int solveDichotomy(double &x);
-    int solveNewton(double initial_guess, double &x);
+    int solveDichotomy(double &x, int &iterations);
+    int solveNewton(double initial_guess, double &x, int &iterations);
 };
 
 #endif

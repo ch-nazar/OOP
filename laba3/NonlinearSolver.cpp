@@ -18,18 +18,18 @@ void NonlinearSolver::setTolerance(double vol_eps) {
 }
 
 double NonlinearSolver::f(double x) {
-    return 3 * std::sin(x) - std::sqrt(x) + 0.35 * x - 3.8;
+    return (std::pow(x, 2) / 4.0) + x - 1.2502;
 }
-
 
 double NonlinearSolver::df(double x) {
     double delta_x = 1e-6;
     return (f(x + delta_x) - f(x)) / delta_x;
 }
 
-int NonlinearSolver::solveDichotomy(double &x) {
+int NonlinearSolver::solveDichotomy(double &x, int &iterations) {
     double current_a = a;
     double current_b = b;
+    iterations = 0;
 
     if (f(current_a) * f(current_b) > 0) {
         std::cerr << "Помилка: Немає розв'язку на заданому проміжку (f(a) * f(b) > 0)." << std::endl;
@@ -38,6 +38,7 @@ int NonlinearSolver::solveDichotomy(double &x) {
 
     double c;
     do {
+        iterations++;
         c = (current_a + current_b) / 2.0;
         
         if (f(current_a) * f(c) < 0) {
@@ -51,12 +52,14 @@ int NonlinearSolver::solveDichotomy(double &x) {
     return 0;
 }
 
-int NonlinearSolver::solveNewton(double initial_guess, double &x) {
+int NonlinearSolver::solveNewton(double initial_guess, double &x, int &iterations) {
     double x_n = initial_guess;
     double x_next;
     int max_iterations = 1000;
+    iterations = 0;
 
     for (int i = 0; i < max_iterations; ++i) {
+        iterations++;
         double derivative = df(x_n);
         
         if (std::abs(derivative) < 1e-9) {
