@@ -2,15 +2,15 @@
 #define NONLINEAR_SOLVER_H
 
 class NonlinearSolver {
-private:
-    double a;
-    double b;
-    double eps;
+private: 
+    double a;   
+    double b;   
+    double eps; 
 
     double f(double x);
-    double df(double x);
+    double df(double x); 
 
-public:
+public: 
     NonlinearSolver();
     ~NonlinearSolver();
 
@@ -19,6 +19,8 @@ public:
 
     int solveDichotomy(double &x, int &iterations);
     int solveNewton(double initial_guess, double &x, int &iterations);
+
+    double checkAnswer(double x);
 };
 
 #endif
